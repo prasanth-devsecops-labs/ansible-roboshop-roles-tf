@@ -1,0 +1,19 @@
+- name: app pre setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-setup.yaml
+
+- name: nodejs setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs-setup.yaml
+
+- name: systemd setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup.yaml
+
+- name: start service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: start-service.yaml

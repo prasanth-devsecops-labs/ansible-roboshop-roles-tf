@@ -1,0 +1,11 @@
+ansible_user: ec2-user
+ansible_password: DevOps321
+MONGODB_HOST: mongodb-dev.prashum.online
+REDIS_HOST: redis-dev.prashum.online
+CATALOGUE_HOST: catalogue-dev.prashum.online
+MYSQL_HOST: mysql-dev.prashum.online
+CART_HOST: cart-dev.prashum.online
+USER_HOST: user-dev.prashum.online
+RABBITMQ_HOST: rabbitmq-dev.prashum.online
+SHIPPING_HOST: shipping-dev.prashum.online
+PAYMENT_HOST: payment-dev.prashum.online

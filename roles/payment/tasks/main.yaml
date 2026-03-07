@@ -1,0 +1,24 @@
+- name: app pre setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-setup.yaml
+
+- name: python setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: python-setup.yaml
+
+- name: Install specified python requirements
+  ansible.builtin.pip:
+    requirements: requirements.txt
+    chdir: /app
+
+- name: systemd setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup.yaml
+
+- name: start service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: start-service.yaml

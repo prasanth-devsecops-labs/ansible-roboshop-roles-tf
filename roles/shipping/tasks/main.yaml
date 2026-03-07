@@ -1,0 +1,56 @@
+- name: app pre setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-setup.yaml
+
+- name: install java
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: java-setup.yaml
+
+- name: systemd setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup.yaml
+
+- name: install python dependencies
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    executable: pip3.9
+  loop:
+  - cryptography
+  - PyMySQL
+
+- name: import shipping data
+  community.mysql.mysql_db:
+    state: import
+    name: all                       # Use 'all' if SQL files have 'USE db_name;'
+    login_host: "{{ MYSQL_HOST }}"
+    login_user: "{{ LOGIN_USER }}"
+    login_password: "{{ LOGIN_PASSWORD }}"
+    target: "/app/db/{{ item }}.sql"
+  loop:
+    - schema
+    - app-user 
+    - master-data
+
+#### TEST
+- name: Verify master data is loaded
+  community.mysql.mysql_query:
+    login_host: "{{ MYSQL_HOST }}"
+    login_user: root
+    login_password: RoboShop@1
+    login_db: cities  
+    query: "SELECT COUNT(*) as count FROM cities"
+  register: db_verify    
+
+- name: Fail if no data is found
+  ansible.builtin.fail:
+    msg: "Verification failed: No cities found in the database!"
+  when: db_verify.query_result[0][0].count == 0
+#####
+
+- name: start service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: start-service.yaml
