@@ -9,3 +9,4 @@ USER_HOST: user-"{{ env }}".prashum.online
 RABBITMQ_HOST: rabbitmq-"{{ env }}".prashum.online
 SHIPPING_HOST: shipping-"{{ env }}".prashum.online
 PAYMENT_HOST: payment-"{{ env }}".prashum.online
+app_version: v3
